@@ -6,7 +6,7 @@ function App() {
   const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState([]);
 
-  const onToInputChange=(e)=>{
+  const onTodoInputChange=(e)=>{
     setTodo(e.target.value);
   }
 
@@ -33,24 +33,39 @@ function App() {
 
   return (
     <>
-    <div>
-      <h1>Wishlist Application</h1>
-      <input type="text" value={todo} onChange={onToInputChange} placeholder="Add item to wishlist" />
-      <button onClick={addTodo}>Add</button>
-      </div>
-      <div>
-        <h2>Your Wishlist:</h2>
-          {todos?.length>0 && todos.map((item)=>(
-            <div key={item.id}>
-            <label>
-              <input type='checkbox' onClick={()=>onTodoCheckChange(item.id)}/>
-              <span>{item.todo}</span>
-              <button onClick={()=>deleteTodo(item.id)}>Delete</button>
-            </label>
+      <div className="app-container">
+        <header className="app-header">
+          <h1>Wishlist Application</h1>
+        </header>
+
+        <div className="input-group">
+          <input
+            type="text"
+            value={todo}
+            onChange={onTodoInputChange}
+            placeholder="Add item to wishlist"
+            aria-label="Add item to wishlist"
+          />
+          <button className="add-button" onClick={addTodo}>Add</button>
+        </div>
+
+        <section className="wishlist">
+          <h2>Your Wishlist:</h2>
+          {todos?.length > 0 && todos.map((item) => (
+            <div key={item.id} className={`todo-item ${item.isCompleted ? 'completed' : ''}`}>
+              <label>
+                <input
+                  type='checkbox'
+                  checked={item.isCompleted}
+                  onClick={() => onTodoCheckChange(item.id)}
+                />
+                <span className="todo-text">{item.todo}</span>
+              </label>
+              <button className="delete-button" onClick={() => deleteTodo(item.id)}>Delete</button>
             </div>
           ))}
+        </section>
       </div>
-      
     </>
   );
 }
